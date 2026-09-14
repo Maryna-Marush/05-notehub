@@ -4,12 +4,12 @@ import ReactPaginateModule, {
 } from 'react-paginate';
 import css from './Pagination.module.css';
 
-type ModuleWithDefault<T> = { default: T };
+type PaginateModule = {
+  default: ComponentType<ReactPaginateProps>;
+};
 
 const ReactPaginate = (
-  ReactPaginateModule as unknown as ModuleWithDefault<
-    ComponentType<ReactPaginateProps>
-  >
+  ReactPaginateModule as unknown as PaginateModule
 ).default;
 
 interface PaginationProps {
@@ -18,19 +18,19 @@ interface PaginationProps {
   onPageChange: (selectedItem: { selected: number }) => void;
 }
 
-const Pagination: React.FC<PaginationProps> = ({
+const Pagination = ({
   pageCount,
   forcePage,
   onPageChange,
-}) => {
+}: PaginationProps) => {
   return (
     <ReactPaginate
-      previousLabel="<"
-      nextLabel=">"
-      breakLabel="..."
       pageCount={pageCount}
       forcePage={forcePage}
       onPageChange={onPageChange}
+      previousLabel="<"
+      nextLabel=">"
+      breakLabel="..."
       containerClassName={css.pagination}
       activeClassName={css.active}
       disabledClassName={css.disabled}
