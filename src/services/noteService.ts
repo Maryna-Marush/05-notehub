@@ -21,14 +21,13 @@ export interface FetchNotesParams {
 export interface FetchNotesResponse {
   notes: Note[];
   totalPages: number;
-  totalNotes: number;
-  page: number;
 }
 
 export const fetchNotes = async (
   params: FetchNotesParams = {}
 ): Promise<FetchNotesResponse> => {
   const { page = 1, perPage = 12, search = '' } = params;
+
   const response = await noteApi.get<FetchNotesResponse>('/notes', {
     params: {
       page,
@@ -36,15 +35,18 @@ export const fetchNotes = async (
       search: search || undefined,
     },
   });
+
   return response.data;
 };
 
 export const createNote = async (newNote: NewNote): Promise<Note> => {
   const response = await noteApi.post<Note>('/notes', newNote);
+
   return response.data;
 };
 
 export const deleteNote = async (id: string): Promise<Note> => {
   const response = await noteApi.delete<Note>(`/notes/${id}`);
+
   return response.data;
 };
